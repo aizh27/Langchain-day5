@@ -1,19 +1,16 @@
 import streamlit as st
-import google.generativeai as genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import Runnable
 
 # --------------------------------------------
-# 1. Gemini API key directly (for local use)
+# 1. Gemini API Key Setup (for deployment)
 # --------------------------------------------
-genai.configure(api_key="AIzaSyDDANK56dFae3szwkTz5244asYXvD4fykc")
-
-# Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
-    temperature=0.7
+    temperature=0.7,
+    google_api_key="AIzaSyDDANK56dFae3szwkTz5244asYXvD4fykc"
 )
 
 # --------------------------------------------
@@ -25,7 +22,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # --------------------------------------------
-# 3. Chain
+# 3. LangChain Runnable Chain
 # --------------------------------------------
 chain: Runnable = prompt | llm | StrOutputParser()
 
