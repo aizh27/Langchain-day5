@@ -6,18 +6,18 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import Runnable
 
 # --------------------------------------------
-# 1. Gemini API key setup from Streamlit secrets
+# 1. Gemini API key directly (for local use)
 # --------------------------------------------
-genai.configure(api_key=st.secrets["AIzaSyBHRfQLiGDN0zf-c_wzMoIcdsezlyIDWWg"])
+genai.configure(api_key="AIzaSyDDANK56dFae3szwkTz5244asYXvD4fykc")
 
-# Initialize Gemini LLM with specified model
+# Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     temperature=0.7
 )
 
 # --------------------------------------------
-# 2. Prompt Template for Translation
+# 2. Prompt Template
 # --------------------------------------------
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful assistant that translates English sentences to French."),
@@ -25,7 +25,7 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # --------------------------------------------
-# 3. Create LangChain Runnable Chain
+# 3. Chain
 # --------------------------------------------
 chain: Runnable = prompt | llm | StrOutputParser()
 
@@ -35,10 +35,8 @@ chain: Runnable = prompt | llm | StrOutputParser()
 st.set_page_config(page_title="English to French Translator", layout="centered")
 st.title("🌍 English to French Translator")
 
-# Input field
 sentence = st.text_input("Enter an English sentence:")
 
-# Translate button
 if st.button("Translate"):
     if not sentence.strip():
         st.warning("Please enter a sentence to translate.")
