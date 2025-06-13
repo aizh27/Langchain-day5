@@ -1,19 +1,19 @@
 import streamlit as st
-import os
-from langchain.chat_models import ChatGoogleGenerativeAI
+import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import Runnable
 
 # --------------------------------------------
-# 1. Hardcoded Gemini API key and model setup
+# 1. Gemini API key setup from Streamlit secrets
 # --------------------------------------------
-os.environ["GOOGLE_API_KEY"] = "AIzaSyBHRfQLiGDN0zf-c_wzMoIcdsezlyIDWWg"
+genai.configure(api_key=st.secrets["AIzaSyBHRfQLiGDN0zf-c_wzMoIcdsezlyIDWWg"])
 
 # Initialize Gemini LLM with specified model
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
-    google_api_key=os.environ["GOOGLE_API_KEY"]
+    temperature=0.7
 )
 
 # --------------------------------------------
